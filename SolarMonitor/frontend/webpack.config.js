@@ -6,7 +6,7 @@ module.exports = {
   entry: {
     main: path.resolve(__dirname, 'src/index.js'),
   },
-  mode: 'development',
+  mode: 'production',//'development',
   // Where Webpack spits out the results (the myapp static folder)
   output: {
     path: path.resolve(__dirname, '../static/js/'),

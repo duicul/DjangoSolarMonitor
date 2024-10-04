@@ -2,7 +2,6 @@ import logging
 from django.http.response import HttpResponseRedirect,HttpResponse
 logger = logging.getLogger("django")
 from main.LoginForm import LoginForm
-from main.models import User_db
 import hashlib
 from django.shortcuts import render
 import json
