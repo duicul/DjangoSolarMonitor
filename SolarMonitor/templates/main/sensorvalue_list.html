@@ -1,0 +1,10 @@
+<h1>Sensor Values</h1>
+<ul>
+{% for sensorval in sensorvalues %}
+    <li> {{sensorval.sensor.name}}</li>
+    <li> {{sensorval.value}}</li>
+    <li> {{sensorval.timestamp}}</li>
+{% empty %}
+    <li>No values yet.</li>
+{% endfor %}
+</ul>

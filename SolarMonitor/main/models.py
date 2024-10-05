@@ -1,6 +1,41 @@
 from django.db import models
 
-import json
+class Sensor(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length = 100, unique=True)
+    ip_location = models.CharField(max_length = 100)
+    unit = models.CharField(max_length = 100)
+    
+    def getDict(self):
+        return {"id":self.id,"name":self.name,"ip_location":self.ip_location,"unit":self.unit}
 
-class MeasurementTemp(models.Model):
+class SensorValue(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    sensor =  models.ForeignKey(Sensor, on_delete=models.CASCADE)
+    value = models.FloatField()
+    timestamp = models.DateTimeField(auto_now=True)
+    
+    def getDict(self):
+        return {"id":self.id,"sensor":self.sensor,"value":self.value,"timestamp":self.timestamp}
+
+class Inverter(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    ip_location = models.CharField(max_length = 100)
+    name = models.CharField(max_length = 100, unique=True)
+    pass
+
+class PZMValue(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    inverter =  models.ForeignKey(Inverter, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
+    voltage = models.FloatField()
+    current = models.FloatField()
+    power = models.FloatField()
+    energy = models.FloatField()
+    pass
+
+class PowlandValue(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    inverter =  models.ForeignKey(Inverter, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
     pass

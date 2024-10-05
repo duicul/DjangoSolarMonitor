@@ -5,7 +5,39 @@ from main.LoginForm import LoginForm
 import hashlib
 from django.shortcuts import render
 import json
-def index(request):
+
+from django.utils import timezone
+from django.views.generic.list import ListView
+from django.views.generic.base import TemplateView
+from main.models import Sensor, SensorValue
+
+
+class SensorListView(ListView):
+    model = Sensor
+    paginate_by = 100  # if pagination is desired
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["now"] = timezone.now()
+        return context
+
+class SensorValueListView(TemplateView):
+    template_name = "main/sensorvalue_list.html"
+    def dispatch(self, request, *args, **kwargs):
+        if "id" in kwargs :
+            #SensorValue.objects.filter(sensor = id)
+            self.sensorvalues = SensorValue.objects.filter(sensor__id = kwargs["id"])
+            return super(SensorValueListView, self).dispatch(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect('/sensor')
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        request = super().get
+        context["sensorvalues"] = self.sensorvalues
+        return context    
+    
+"""def index(request):
     username=None
     login=None
     try:
@@ -42,4 +74,4 @@ def login(request):
         if len(user_db)>0 and encrypt_pass == user_db[0].password:
             request.session['username']=username
             return  HttpResponseRedirect("/")
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect("/")"""

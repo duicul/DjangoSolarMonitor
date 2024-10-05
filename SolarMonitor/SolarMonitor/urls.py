@@ -19,10 +19,13 @@ from django.urls import path, include  # new
 from django.views.generic.base import TemplateView  # new
 import accounts.views
 from accounts.views import MainView
+from main.views import SensorListView, SensorValueListView
 urlpatterns = [
     path('',MainView.as_view()),
     path('logout/',accounts.views.logout_view),
-    path("", include("django.contrib.auth.urls"))
+    path("", include("django.contrib.auth.urls")),
+    path("sensor/", SensorListView.as_view(), name="sensor-list"),
+    path("sensor/<int:id>/", SensorValueListView.as_view(), name="sensor-value-list"),
     #path('admin/', admin.site.urls),
     #path('login/', main.views.login,name="login"),
     #path("accounts/", include("accounts.urls")),  # new

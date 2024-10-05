@@ -1,0 +1,11 @@
+<h1>Sensors</h1>
+<ul>
+{% for sensor in object_list %}
+    <li> {{sensor.name}}</li>
+    <li> {{sensor.ip_location}}</li>
+    <li> {{sensor.unit}}</li>
+    <li> <a href="{% url 'sensor-value-list' sensor.id %}">{{sensor.name}}</a>  </li>
+{% empty %}
+    <li>No sensors yet.</li>
+{% endfor %}
+</ul>

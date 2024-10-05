@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Web Video Player </title>
+    <title>Home Station </title>
    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png"/>
     
     
@@ -33,8 +33,7 @@ a {
 </nav>
     <!--<div style="margin-left:40%;">-->
     <center>
-    <nav id="navigation1"></nav>
-    <div id="app" />
+   
     <form style="width:40%;height:40%;background-color:#A495F5" name = "form" action = "logout" >{% csrf_token %}
          <div style = "max-width:70%;">
             <center> 
@@ -51,6 +50,18 @@ a {
       </form> 
        </center>
     </div>
-    <script src="{% static 'js/main1.js' %}"></script>
+    
+
+<GaugeChart id="gauge-chart5"
+  nrOfLevels={420}
+  arcsLength={[0.3, 0.5, 0.2]}
+  colors={['#5BE12C', '#F5CD19', '#EA4228']}
+  percent={0.37}
+  arcPadding={0.02}
+/>
+     <div id="app" ></div>
+    <div id="app1" style="background-color:#A495F5" ></div>
+    
 </body>
+<script src="{% static 'js/main.js' %}"></script>
 </html>
