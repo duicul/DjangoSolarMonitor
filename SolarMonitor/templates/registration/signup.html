@@ -4,10 +4,59 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-<h2>Sign up</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form }}
-  <button type="submit">Sign Up</button>
-</form>
+
+   <form style="width:40%;height:40%;background-color:#A495F5" name = "form" 
+         method = "POST" >{% csrf_token %}
+         {{ form.non_field_errors }}
+         <div style = "max-width:70%;">
+            <center> 
+            {{ form.username.label_tag }}<br/>
+            {{ form.username.help_text }}<br/>
+            {{ form.username.errors }} <br/>
+               <input type = "text" style = "width:80%;" 
+                  placeholder = "{{ form.username.label }}" name = "{{ form.username.name }}" required />
+                  
+            </center>
+         </div>
+            
+         <br>
+         
+         <div style = "max-width:70%;">
+            <center>
+            {{ form.password1.label }}<br/>
+            {{ form.password1.help_text }}<br/>
+            {{ form.password1.errors }} <br/>
+               <input type = "password" style = "width:80%;" 
+                  placeholder = "{{ form.password1.label }}" name = "{{ form.password1.name }}" required/>
+            </center>
+         </div>
+         
+         <div style = "max-width:70%;">
+            <center>
+            {{ form.password2.label }}<br/>
+            {{ form.password2.help_text }}<br/>
+            {{ form.password2.errors }} <br/>
+               <input type = "password" style = "width:80%;" 
+                  placeholder = "{{ form.password2.label }}" name = "{{ form.password2.name }}" required/>
+            </center>
+         </div>
+            
+         <br>
+         {% if login == "wrong" %}
+         <span style="color:#FF0000;">Wrong password</span>
+         <br>
+         {% endif %}
+         <div style = "max-width:70%;">
+            <center> 
+            
+               <button style = "border:0px; background-color:#4285F4; margin-top:8%;
+                  height:35px; width:80%;" type = "submit" 
+                  value = "Signup" >
+                  <strong>Signup</strong>
+               </button>
+               
+            </center>
+         </div>
+         
+      </form>  
 {% endblock %}

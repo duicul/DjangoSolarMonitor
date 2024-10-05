@@ -24,6 +24,8 @@ urlpatterns = [
     path('',MainView.as_view()),
     path('logout/',accounts.views.logout_view),
     path("", include("django.contrib.auth.urls")),
+    path("signup/",accounts.views.SignUpView.as_view(),name="signup"),
+    path("changepassword/",accounts.views.change_password, name='change_password'),
     path("sensor/", SensorListView.as_view(), name="sensor-list"),
     path("sensor/<int:id>/", SensorValueListView.as_view(), name="sensor-value-list"),
     #path('admin/', admin.site.urls),
