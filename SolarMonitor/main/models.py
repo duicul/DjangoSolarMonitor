@@ -1,11 +1,15 @@
 from django.db import models
+from django.core.validators import URLValidator
+
+SENSOR_TYPES = ["OneWire","WeatherAPI","DCVoltage"]
 
 class Sensor(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length = 100, unique=True)
-    ip_location = models.CharField(max_length = 100)
-    unit = models.CharField(max_length = 100)
-    
+    host = models.CharField(max_length = 100,validators = [URLValidator()])
+    unit = models.CharField(max_length = 100,default="C")
+    sensor_type = models.CharField(max_length = 100,default="OneWire")
+    key = models.CharField(max_length = 100,default="")
     def getDict(self):
         return {"id":self.id,"name":self.name,"ip_location":self.ip_location,"unit":self.unit}
 
@@ -20,7 +24,7 @@ class SensorValue(models.Model):
 
 class Inverter(models.Model):
     id = models.BigAutoField(primary_key=True)
-    ip_location = models.CharField(max_length = 100)
+    host = models.CharField(max_length = 100)
     name = models.CharField(max_length = 100, unique=True)
     pass
 

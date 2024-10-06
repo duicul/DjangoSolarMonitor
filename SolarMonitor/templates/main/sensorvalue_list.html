@@ -1,4 +1,6 @@
-<h1>Sensor Values</h1>
+{% extends "../base.html" %}
+{% block title %}Sensors{% endblock %}
+{% block content %}
 <ul>
 {% for sensorval in sensorvalues %}
     <li> {{sensorval.sensor.name}}</li>
@@ -8,3 +10,4 @@
     <li>No values yet.</li>
 {% endfor %}
 </ul>
+{% endblock %}

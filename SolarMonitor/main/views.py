@@ -1,16 +1,21 @@
 import logging
 from django.http.response import HttpResponseRedirect,HttpResponse
+from accounts.views import MainView
+from django.core.exceptions import ValidationError
 logger = logging.getLogger("django")
 from main.LoginForm import LoginForm
 import hashlib
 from django.shortcuts import render
-import json
-
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 from django.utils import timezone
 from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView
-from main.models import Sensor, SensorValue
-
+from django.views.generic.edit import DeleteView
+from main.models import Sensor, SensorValue, SENSOR_TYPES
+from django import forms
+from django.forms import ModelForm
+from .models import Sensor
 
 class SensorListView(ListView):
     model = Sensor
@@ -33,9 +38,30 @@ class SensorValueListView(TemplateView):
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        request = super().get
         context["sensorvalues"] = self.sensorvalues
         return context    
+
+class SensorCreateForm(ModelForm):
+    class Meta:
+        model = Sensor
+        fields = ["name", "host", "unit","sensor_type","key"]
+    
+    
+
+class SensorCreateView(CreateView):
+    form_class = SensorCreateForm
+    success_url = reverse_lazy("sensor-list")
+    template_name = "main/sensor_create.html"
+    sensor_types = SENSOR_TYPES
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["sensor_types"] = self.sensor_types
+        return context 
+
+class SensorDeleteView(DeleteView):
+    model = Sensor
+    success_url = reverse_lazy("sensor-list") 
     
 """def index(request):
     username=None

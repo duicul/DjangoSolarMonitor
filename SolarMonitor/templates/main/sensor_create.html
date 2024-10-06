@@ -1,0 +1,79 @@
+<!-- templates/registration/signup.html -->
+{% extends "../base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+   <form style="width:40%;height:40%;background-color:#A495F5" name = "form" 
+         method = "POST" >{% csrf_token %}
+         {{ form.non_field_errors }}
+         <div style = "max-width:70%;">
+            <center> 
+            {{ form.name.label_tag }}<br/>
+            {{ form.name.help_text }}<br/>
+            {{ form.name.errors }} <br/>
+               <input type = "text" style = "width:80%;" 
+                  placeholder = "{{ form.name.label }}" name = "{{ form.name.name }}" required />
+                  
+            </center>
+         </div>
+            
+         <br>
+         
+         <div style = "max-width:70%;">
+            <center>
+            {{ form.host.label }}<br/>
+            {{ form.host.help_text }}<br/>
+            {{ form.host.errors }} <br/>
+               <input type = "text" style = "width:80%;" 
+                  placeholder = "{{ form.host.label }}" name = "{{ form.host.name }}" required/>
+            </center>
+         </div>
+         
+         <div style = "max-width:70%;">
+            <center>
+            {{ form.key.label }}<br/>
+            {{ form.key.help_text }}<br/>
+            {{ form.key.errors }} <br/>
+               <input type = "text" style = "width:80%;" 
+                  placeholder = "{{ form.key.label }}" name = "{{ form.key.name }}" required/>
+            </center>
+         </div>
+         
+         <div style = "max-width:70%;">
+            <center>
+            {{ form.unit.label }}<br/>
+            {{ form.unit.help_text }}<br/>
+            {{ form.unit.errors }} <br/>
+               <input type = "text" style = "width:80%;" 
+                  placeholder = "{{ form.unit.label }}" name = "{{ form.unit.name }}" required/>
+            </center>
+         </div>
+         
+        <div style = "max-width:70%;">
+        {{ form.sensor_type.label }}<br/>
+        {{ form.sensor_type.help_text }}<br/>
+        {{ form.sensor_type.errors }} <br/>
+        <center>
+         <select name = "{{ form.sensor_type.name }}" required >
+            {% for type in sensor_types %}
+            <option value="{{type}}}">{{type}}</option>
+            {% endfor %}
+        </select>
+        </center>
+        </div>
+            
+         <div style = "max-width:70%;">
+            <center> 
+            
+               <button style = "border:0px; background-color:#4285F4; margin-top:8%;
+                  height:35px; width:80%;" type = "submit" 
+                  value = "Create Sensor" >
+                  <strong>Create Sensor</strong>
+               </button>
+               
+            </center>
+         </div>
+         
+      </form>  
+{% endblock %}

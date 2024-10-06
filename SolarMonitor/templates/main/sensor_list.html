@@ -1,11 +1,18 @@
-<h1>Sensors</h1>
+{% extends "../base.html" %}
+{% block title %}Sensors{% endblock %}
+{% block content %}
 <ul>
 {% for sensor in object_list %}
-    <li> {{sensor.name}}</li>
+    <li> <h3>{{sensor.name}}</h3></li>
     <li> {{sensor.ip_location}}</li>
     <li> {{sensor.unit}}</li>
     <li> <a href="{% url 'sensor-value-list' sensor.id %}">{{sensor.name}}</a>  </li>
+    <form method="post" action="{% url 'sensor-delete' sensor.id  %}">{% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Delete">
+</form>
 {% empty %}
     <li>No sensors yet.</li>
 {% endfor %}
 </ul>
+{% endblock %}
