@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from tzlocal import get_localzone
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,7 +27,6 @@ SECRET_KEY = 'django-insecure-3i12fo__$(uv4y2k0t^*0y8*jv9w+900@%!whv=dedyf6a)z6w
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -112,12 +112,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+#TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
-
+local_tz = get_localzone() 
+print("local_tz "+str(local_tz))
+TIME_ZONE = str(local_tz)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

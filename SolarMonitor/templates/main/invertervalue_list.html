@@ -1,6 +1,7 @@
 {% extends "../base.html" %}
 {% block title %}Inverters{% endblock %}
 {% block content %}
+{% load tz %}
 <ul  class="list-group  list-group-numbered">
 {% for inverterval in invertervalues %}
     <div class="card">
@@ -9,6 +10,11 @@
             <li class="list-group-item card-title"> <h3>{{inverterval.inverter.name}}</h3></li>
             <li class="list-group-item"> {{inverterval.InverterFrequency}}</li>
             <li class="list-group-item"> {{inverterval.OutputFrequency}}</li>
+            {% get_current_timezone as TIME_ZONE %}
+            {% localtime on %}
+            <li class="list-group-item"> {{inverterval.timestamp}}</li>
+            {% endlocaltime %}
+
         </ul>
       </div>
     </div>
