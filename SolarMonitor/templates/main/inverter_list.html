@@ -1,0 +1,22 @@
+{% extends "../base.html" %}
+{% block title %}Inverters{% endblock %}
+{% block content %}
+<ul  class="list-group  list-group-numbered">
+{% for inverter in object_list %}
+   <div class="card">
+        <div class="card-body">
+            <ul  class="list-group  list-group-flush">
+                <li class="list-group-item  card-title"> <h3>{{inverter.name}}</h3></li>
+                <li class="list-group-item"> {{inverter.host}}</li>
+                <li class="list-group-item"> {{inverter.name}}</li>
+                <li class="list-group-item"> {{inverter.type}}</li>
+                <li class="list-group-item"> <a href="{% url 'inverter-value-list' inverter.id %}">{{inverter.name}}</a>  </li>
+                <form method="post" action="{% url 'inverter-delete' inverter.id  %}">{% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Delete"></form>
+            </ul>
+        </div>
+    </div>
+{% endfor %}
+</ul >
+{% endblock content %}

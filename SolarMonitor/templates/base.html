@@ -3,18 +3,42 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
+   <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon/favicon-32x32.png"/>
+    
+    
+    {% load static %} 
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <style type="text/css">
+a {
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
+}
+</style>
 </head>
 
 <body style="text-align:center;">
-<nav class="navbar navbar-expand-lg navbar-light bg-light"></nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    
+    <form name = "form" action = "{% url 'logout' %}" >{% csrf_token %}
+               <button style = "background-color:#4285F4;" type = "submit" 
+                  value = "Logout" >
+                  <strong>Logout</strong>
+               </button></form></nav>
   <main>
   <center>
-    {% block content %}
-    {% endblock %}
+  <div class="row">
+    <div class="col-md-3"></div>
+        <div class="col-md-6">
+        {% block content %}
+        {% endblock %}
+        </div>
+    <div class="col-md-3"></div>
+  </div>
 </center>
   </main>
 </body>
-
+<script src="{% static 'js/main.js' %}"></script>
 </html>

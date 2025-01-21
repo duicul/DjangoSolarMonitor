@@ -2,6 +2,7 @@ import logging
 from django.http.response import HttpResponseRedirect,HttpResponse
 from accounts.views import MainView
 from django.core.exceptions import ValidationError
+from main.tasks import poll_inverter
 logger = logging.getLogger("django")
 from main.LoginForm import LoginForm
 import hashlib
@@ -12,7 +13,8 @@ from django.utils import timezone
 from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import DeleteView
-from main.models import Sensor, SensorValue, SENSOR_TYPES
+from main.models import Sensor, SensorValue, SENSOR_TYPES, PowlandValue,Inverter,\
+    INVERTER_TYPES
 from django import forms
 from django.forms import ModelForm
 from .models import Sensor
@@ -46,8 +48,11 @@ class SensorCreateForm(ModelForm):
         model = Sensor
         fields = ["name", "host", "unit","sensor_type","key"]
     
+    def save(self, commit=True):
+        savedModel = ModelForm.save(self, commit=commit)
+        print("SensorCreateForm save "+str(savedModel))
+        return savedModel
     
-
 class SensorCreateView(CreateView):
     form_class = SensorCreateForm
     success_url = reverse_lazy("sensor-list")
@@ -62,6 +67,58 @@ class SensorCreateView(CreateView):
 class SensorDeleteView(DeleteView):
     model = Sensor
     success_url = reverse_lazy("sensor-list") 
+    
+    
+class InverterListView(ListView):
+    model = Inverter
+    paginate_by = 100  # if pagination is desired
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["now"] = timezone.now()
+        return context
+
+class InverterValueListView(TemplateView):
+    template_name = "main/invertervalue_list.html"
+    def dispatch(self, request, *args, **kwargs):
+        if "id" in kwargs :
+            #SensorValue.objects.filter(sensor = id)
+            self.invertervalues = PowlandValue.objects.filter(inverter = kwargs["id"])
+            return super(InverterValueListView, self).dispatch(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect('/inverter')
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["invertervalues"] = self.invertervalues
+        return context    
+
+class InverterCreateForm(ModelForm):
+    class Meta:
+        model = Inverter
+        fields = ["host", "name","type"]
+        
+    def save(self, commit=True):
+        savedModel = ModelForm.save(self, commit=commit)
+        print("InverterCreateForm save "+str(savedModel.id))
+        poll_inverter(savedModel.id,repeat=15*60)
+        return savedModel
+    
+
+class InverterCreateView(CreateView):
+    form_class = InverterCreateForm
+    success_url = reverse_lazy("inverter-list")
+    template_name = "main/inverter_create.html"
+    inverter_types = INVERTER_TYPES
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["inverter_types"] = self.inverter_types
+        return context 
+
+class InverterDeleteView(DeleteView):
+    model = Inverter
+    success_url = reverse_lazy("inverter-list") 
     
 """def index(request):
     username=None

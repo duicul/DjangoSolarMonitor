@@ -20,17 +20,23 @@ from django.views.generic.base import TemplateView  # new
 import accounts.views
 from accounts.views import MainView
 from main.views import SensorListView, SensorValueListView, SensorCreateView,\
-    SensorDeleteView
+    SensorDeleteView, InverterListView, InverterCreateView, InverterDeleteView,\
+    InverterValueListView
 urlpatterns = [
     path('',MainView.as_view(),name="index"),
-    path('logout/',accounts.views.logout_view),
+    path('logout/',accounts.views.logout_view,name="logout"),
     path("", include("django.contrib.auth.urls")),
     path("signup/",accounts.views.SignUpView.as_view(),name="signup"),
     path("changepassword/",accounts.views.change_password, name='change_password'),
     path("sensor/", SensorListView.as_view(), name="sensor-list"),
     path("sensor/<int:id>/", SensorValueListView.as_view(), name="sensor-value-list"),
     path("sensorcreate/",SensorCreateView.as_view(),name="sensor-create"),
-    path("sensordelete/<int:pk>/",SensorDeleteView.as_view(),name="sensor-delete") #pk needed in url for deletion
+    path("sensordelete/<int:pk>/",SensorDeleteView.as_view(),name="sensor-delete"), #pk needed in url for deletion
+    path("inverter/", InverterListView.as_view(), name="inverter-list"),
+    path("inverter/<int:id>/", InverterValueListView.as_view(), name="inverter-value-list"),
+    path("invertercreate/",InverterCreateView.as_view(),name="inverter-create"),
+    path("inverterdelete/<int:pk>/",InverterDeleteView.as_view(),name="inverter-delete") #pk needed in url for deletion
+    
     #path('admin/', admin.site.urls),
     #path('login/', main.views.login,name="login"),
     #path("accounts/", include("accounts.urls")),  # new

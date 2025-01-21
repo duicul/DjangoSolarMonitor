@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "background_task",
     "main",
     #"main.apps.MainConfig",
     'django.contrib.admin',
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "accounts",  # new,
-    "django_vite_plugin"
+    "django_vite_plugin",
+    
     
 ]
 
@@ -134,3 +136,81 @@ print(STATICFILES_DIRS)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"  # new
+
+LOGGING = {
+    'version': 1,
+    # Version of logging
+    'disable_existing_loggers': False,
+ 
+    'filters':{
+        #information regarding filters
+    },
+ 
+    'formatters':{
+        'Simple_Format':{
+            'format': '{asctime} {levelname} in {module} : {message}',
+            'style': '{',
+        }
+    },
+ 
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': './logs/log_file.log',
+            'maxBytes' :4*1024 * 1024,
+            'backupCount' : 10,
+            'formatter':'Simple_Format'
+        },'file_error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': './logs/log_file_error.log',
+            'maxBytes' :4*1024 * 1024,
+            'backupCount' : 10,
+            'formatter':'Simple_Format'
+        },'file_imdb': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': './logs/log_file_imdb.log',
+            'maxBytes' :4*1024 * 1024,
+            'backupCount' : 10,
+            'formatter':'Simple_Format'
+        },
+        'statuslogging':{
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': './logs/log_file_status.log',
+            'maxBytes' : 4 * 1024,
+            'backupCount' : 1,
+            'formatter':'Simple_Format'
+        },
+        'file_request': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': './logs/log_file_request.log',
+            'maxBytes' :4*1024 * 1024,
+            'backupCount' : 20,
+            'formatter':'Simple_Format'
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter':'Simple_Format'
+        },
+    },
+ 
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console','statuslogging','file_error'],
+            'level': 'DEBUG',
+        },
+        'django_imdb': {
+            'handlers': ['file_imdb'],
+            'level': 'DEBUG',
+        },
+        'django.request': {
+            'handlers': ['file_request'],
+            'level': 'DEBUG',
+        },
+    },
+}
