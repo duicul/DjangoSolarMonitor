@@ -21,7 +21,7 @@ import accounts.views
 from accounts.views import MainView
 from main.views import SensorListView, SensorValueListView, SensorCreateView,\
     SensorDeleteView, InverterListView, InverterCreateView, InverterDeleteView,\
-    InverterValueListView
+    InverterValueListView,room,display_data
 urlpatterns = [
     path('',MainView.as_view(),name="index"),
     path('logout/',accounts.views.logout_view,name="logout"),
@@ -35,8 +35,9 @@ urlpatterns = [
     path("inverter/", InverterListView.as_view(), name="inverter-list"),
     path("inverter/<int:id>/", InverterValueListView.as_view(), name="inverter-value-list"),
     path("invertercreate/",InverterCreateView.as_view(),name="inverter-create"),
-    path("inverterdelete/<int:pk>/",InverterDeleteView.as_view(),name="inverter-delete") #pk needed in url for deletion
-    
+    path("inverterdelete/<int:pk>/",InverterDeleteView.as_view(),name="inverter-delete"), #pk needed in url for deletion
+    path("chat/<str:room_name>/", room, name="room"),
+    path("display_data/", display_data),
     #path('admin/', admin.site.urls),
     #path('login/', main.views.login,name="login"),
     #path("accounts/", include("accounts.urls")),  # new

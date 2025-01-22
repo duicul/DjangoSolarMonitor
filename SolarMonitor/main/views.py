@@ -119,7 +119,13 @@ class InverterCreateView(CreateView):
 class InverterDeleteView(DeleteView):
     model = Inverter
     success_url = reverse_lazy("inverter-list") 
-    
+
+def room(request, room_name):
+    return render(request, "room.html", {"room_name": room_name})
+
+def display_data(request):
+    return render(request, "main_display.html")
+
 """def index(request):
     username=None
     login=None

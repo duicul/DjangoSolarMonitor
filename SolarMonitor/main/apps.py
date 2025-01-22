@@ -6,4 +6,4 @@ class MainConfig(AppConfig):
     def ready(self):
         from main.tasks import poll_data
         print("start repeat")
-        poll_data()
+        #poll_data()

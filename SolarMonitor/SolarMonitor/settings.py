@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     "background_task",
     "main",
     #"main.apps.MainConfig",
@@ -42,9 +43,20 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "accounts",  # new,
     "django_vite_plugin",
-    
+    "channels"
     
 ]
+
+ASGI_APPLICATION = "SolarMonitor.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -178,14 +190,14 @@ LOGGING = {
             'backupCount' : 10,
             'formatter':'Simple_Format'
         },
-        'statuslogging':{
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': './logs/log_file_status.log',
-            'maxBytes' : 4 * 1024,
-            'backupCount' : 1,
-            'formatter':'Simple_Format'
-        },
+#         'statuslogging':{
+#             'level': 'INFO',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': './logs/log_file_status.log',
+#             'maxBytes' : 4 * 1024,
+#             'backupCount' : 1,
+#             'formatter':'Simple_Format'
+#         },
         'file_request': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
@@ -203,7 +215,7 @@ LOGGING = {
  
     'loggers': {
         'django': {
-            'handlers': ['file', 'console','statuslogging','file_error'],
+            'handlers': ['file', 'console','file_error'],
             'level': 'DEBUG',
         },
         'django_imdb': {
